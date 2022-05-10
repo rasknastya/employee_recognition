@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/books_shop
+    username: badmin
+    password: badminpass
+    driver-class-name: org.postgresql.Driver
+
+jwt:
+  issuer: 'pavel.lazarenko@7bits.it'
+  signingKey: 'talspoc120nxjsapqke1d77'
+  aTokenDuration: 30
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    it.sevenbits.courses.example.auth.web.security: DEBUG
