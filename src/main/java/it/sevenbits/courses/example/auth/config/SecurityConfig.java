@@ -1,5 +1,6 @@
 package it.sevenbits.courses.example.auth.config;
 
+import it.sevenbits.courses.example.auth.core.repository.users.UserRepository;
 import it.sevenbits.courses.example.auth.core.security.BCryptPasswordEncoder;
 import it.sevenbits.courses.example.auth.core.security.PasswordEncoder;
 import it.sevenbits.courses.example.auth.web.security.JsonWebTokenService;
@@ -17,8 +18,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtTokenService jwtTokenService(final JwtSettings settings) {
-        return new JsonWebTokenService(settings);
+    public JwtTokenService jwtTokenService(final JwtSettings settings, final UserRepository userRepository) {
+        return new JsonWebTokenService(settings, userRepository);
     }
 
 }

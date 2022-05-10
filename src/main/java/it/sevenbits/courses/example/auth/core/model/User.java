@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class User {
@@ -21,12 +22,12 @@ public class User {
     private List<String> roles;
 
     @JsonProperty("embedding")
-    private final float[] embedding;
+    private final BigDecimal[] embedding;
 
     @JsonIgnore
     private final String password;
 
-    public User(String userId, String email, String fullName, List<String> roles, float[] embedding, String password) {
+    public User(String userId, String email, String fullName, List<String> roles, BigDecimal[] embedding, String password) {
         this.userId = userId;
         this.email = email;
         this.fullName = fullName;
@@ -36,7 +37,7 @@ public class User {
     }
 
     @JsonCreator
-    public User(String userId, String email, String fullName, List<String> roles, float[] embedding) {
+    public User(String userId, String email, String fullName, List<String> roles, BigDecimal[] embedding) {
         this.userId = userId;
         this.email = email;
         this.fullName = fullName;
@@ -60,7 +61,7 @@ public class User {
         return password;
     }
 
-    public float[] getEmbedding() {
+    public BigDecimal[] getEmbedding() {
         return embedding;
     }
 

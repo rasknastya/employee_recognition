@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import it.sevenbits.courses.example.auth.core.model.User;
+import it.sevenbits.courses.example.auth.core.repository.users.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +20,13 @@ import java.util.List;
 public class JsonWebTokenService implements JwtTokenService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private final JwtSettings settings;
     private static final String ROLES = "roles";
+    private final UserRepository userRepository;
 
-    public JsonWebTokenService(final JwtSettings settings) {
+    public JsonWebTokenService(final JwtSettings settings, UserRepository userRepository) {
         this.settings = settings;
+        this.userRepository = userRepository;
     }
 
     @Override

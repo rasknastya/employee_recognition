@@ -4,7 +4,7 @@ import java.util.Set;
 
 public interface UserCredentials {
 
-    String getUsername();
+    String getEmail();
     Set<String> getRoles();
 
 }

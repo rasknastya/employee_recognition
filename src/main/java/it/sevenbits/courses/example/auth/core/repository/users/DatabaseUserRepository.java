@@ -5,12 +5,13 @@ import it.sevenbits.courses.example.auth.web.controller.exception.BadRequestExce
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * Repository to list all users.
  */
-public class DatabaseUsersRepository implements UsersRepository {
+public class DatabaseUserRepository implements UserRepository {
     private final JdbcOperations jdbcOperations;
     private final String ROLE = "role";
     private final String USERID = "user_id";
@@ -19,14 +20,14 @@ public class DatabaseUsersRepository implements UsersRepository {
     private final String EMAIL = "email";
     private final String PASSWORD = "password";
 
-    public DatabaseUsersRepository(final JdbcOperations jdbcOperations) {
+    public DatabaseUserRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 
-    public User findByUserName(String email) {
+    public User findUserByEmail(String email) {
         User user;
         List<String> roles;
-
+        System.out.println(email);
         try {
             user = jdbcOperations.queryForObject(
                     "SELECT user_id, full_name, embedding, password, enabled FROM users u" +
@@ -34,17 +35,20 @@ public class DatabaseUsersRepository implements UsersRepository {
                     (resultSet, i) -> {
                         String userId =  resultSet.getString(USERID);
                         String fullName = resultSet.getString(FULLNAME);
-                        float[] embedding = (float[])resultSet.getArray(EMBEDDING)
+                        BigDecimal[] embedding = (BigDecimal[])resultSet.getArray(EMBEDDING)
                                 .getArray();
                         String password = resultSet.getString(PASSWORD);
+                        System.out.println(fullName);
                         return new User(userId, email, fullName, null, embedding, password);
                     },
                     email
             );
         } catch (IncorrectResultSizeDataAccessException e){
+            System.out.println("aaaaa inc");
             return null;
         }
         if (user == null) {
+            System.out.println("aaaaa null");
             return null;
         }
 
@@ -54,7 +58,7 @@ public class DatabaseUsersRepository implements UsersRepository {
         return user;
     }
 
-    public User findByUserId(String userId) {
+    public User findUserById(String userId) {
         User user;
         List<String> roles;
 
@@ -65,7 +69,7 @@ public class DatabaseUsersRepository implements UsersRepository {
                     (resultSet, i) -> {
                         String email =  resultSet.getString(EMAIL);
                         String fullName = resultSet.getString(FULLNAME);
-                        float[] embedding = (float[])resultSet.getArray(EMBEDDING)
+                        BigDecimal[] embedding = (BigDecimal[])resultSet.getArray(EMBEDDING)
                                 .getArray();
                         String password = resultSet.getString(PASSWORD);
                         return new User(userId, email, fullName, null, embedding, password);
@@ -96,7 +100,7 @@ public class DatabaseUsersRepository implements UsersRepository {
                         String userId =  resultSet.getString(USERID);
                         String email =  resultSet.getString(EMAIL);
                         String fullName = resultSet.getString(FULLNAME);
-                        float[] embedding = (float[])resultSet.getArray(EMBEDDING)
+                        BigDecimal[] embedding = (BigDecimal[])resultSet.getArray(EMBEDDING)
                                 .getArray();
                         String password = resultSet.getString(PASSWORD);
                         List<String> roles = getUserRoles(userId);
@@ -115,7 +119,7 @@ public class DatabaseUsersRepository implements UsersRepository {
         String userId = user.getUserId();
         String email = user.getEmail();
         String fullName = user.getFullName();
-        float[] embedding = user.getEmbedding();
+        BigDecimal[] embedding = user.getEmbedding();
         String password = user.getPassword();
         List<String> roles = user.getRoles();
 
@@ -136,7 +140,7 @@ public class DatabaseUsersRepository implements UsersRepository {
             );
         }
 
-        return findByUserId(userId);
+        return findUserById(userId);
     }
 
     @Override
@@ -144,7 +148,7 @@ public class DatabaseUsersRepository implements UsersRepository {
         String userId = user.getUserId();
         String email = user.getEmail();
         String fullName = user.getFullName();
-        float[] embedding = user.getEmbedding();
+        BigDecimal[] embedding = user.getEmbedding();
         String password = user.getPassword();
         List<String> roles = user.getRoles();
 
@@ -176,14 +180,14 @@ public class DatabaseUsersRepository implements UsersRepository {
             }
         }
 
-        return findByUserId(userId);
+        return findUserById(userId);
     }
 
     private List<String> getUserRoles(final String userId) {
         List<String> roles = new ArrayList<>();
         jdbcOperations.query(
-                "SELECT userId, role FROM user_roles" +
-                        " WHERE userId = ?",
+                "SELECT user_id, role FROM user_roles" +
+                        " WHERE user_id = ?",
                 resultSet -> {
                     String role = resultSet.getString(ROLE);
                     roles.add(role);

@@ -10,20 +10,20 @@ import java.util.Set;
 
 class UserCredentialsImpl implements UserCredentials {
 
-    @JsonProperty("username")
-    private final String username;
+    @JsonProperty("email")
+    private final String email;
 
     @JsonProperty("roles")
     private final Set<String> roles;
 
     @JsonCreator
-    public UserCredentialsImpl(String username, Collection<String> roles) {
-        this.username = username;
+    public UserCredentialsImpl(String email, Collection<String> roles) {
+        this.email = email;
         this.roles = Collections.unmodifiableSet(new LinkedHashSet<>(roles));
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     public Set<String> getRoles() {

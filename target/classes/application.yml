@@ -2,14 +2,14 @@ server:
   port: 8080
 spring:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5432/books_shop
-    username: badmin
-    password: badminpass
+    jdbc-url: jdbc:postgresql://localhost:5432/employee_recognition
+    username: superuser
+    password: superpassword
     driver-class-name: org.postgresql.Driver
 
 jwt:
-  issuer: 'pavel.lazarenko@7bits.it'
-  signingKey: 'talspoc120nxjsapqke1d77'
+  issuer: 'rasknastya@gmail.com'
+  signingKey: 'rasknastya'
   aTokenDuration: 30
 
 logging:
@@ -17,3 +17,6 @@ logging:
     root: INFO
     org.springframework.web: INFO
     it.sevenbits.courses.example.auth.web.security: DEBUG
+spring.flyway:
+  baselineOnMigrate: true
+  outOfOrder: true
