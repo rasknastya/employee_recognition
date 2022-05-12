@@ -1,0 +1,22 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/employee_recognition
+    username: superuser
+    password: superpassword
+    driver-class-name: org.postgresql.Driver
+
+jwt:
+  issuer: 'rasknastya@gmail.com'
+  signingKey: 'rasknastya'
+  aTokenDuration: 30
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    it.sevenbits.courses.example.auth.web.security: DEBUG
+spring.flyway:
+  baselineOnMigrate: true
+  outOfOrder: true

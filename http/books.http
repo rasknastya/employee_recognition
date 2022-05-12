@@ -1,0 +1,3 @@
+GET http://localhost:8080/books
+Origin: http://localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJwYXZlbC5sYXphcmVua29AN2JpdHMuaXQiLCJpYXQiOjE2NDg3MjU1MjksInN1YiI6InVzZXIiLCJleHAiOjE2NDg3MjczMjksInJvbGVzIjpbIlVTRVIiXX0.By62SJOSNuiCf_rUrFbRmoiBBOKdv0zzD_xe3LPAbWeQQsAVn0vEydvV95CQ5FkoN3OY2EHbajmgvzizkjCwyw
