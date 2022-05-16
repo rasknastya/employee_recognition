@@ -19,4 +19,3 @@ logging:
     it.sevenbits.courses.example.auth.web.security: DEBUG
 spring.flyway:
   baselineOnMigrate: true
-  outOfOrder: true

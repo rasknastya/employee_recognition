@@ -6,6 +6,10 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -44,11 +48,9 @@ public class DatabaseUserRepository implements UserRepository {
                     email
             );
         } catch (IncorrectResultSizeDataAccessException e){
-            System.out.println("aaaaa inc");
             return null;
         }
         if (user == null) {
-            System.out.println("aaaaa null");
             return null;
         }
 
@@ -115,7 +117,29 @@ public class DatabaseUserRepository implements UserRepository {
     }
 
     @Override
-    public User addUser(final User user) {
+    public Map<String, BigDecimal[]> getEmbeddings() {
+        Map<String, BigDecimal[]> embeddings= new HashMap<>();
+
+        try {
+            jdbcOperations.query(
+                    "SELECT user_id, embedding FROM users u" +
+                            " WHERE u.enabled = true",
+                    (resultSet, i) -> {
+                        String userId =  resultSet.getString(USERID);
+                        BigDecimal[] embedding = (BigDecimal[])resultSet.getArray(EMBEDDING)
+                                .getArray();
+                        return embeddings.put(userId, embedding);
+                    }
+            );
+        } catch (IncorrectResultSizeDataAccessException e){
+            return embeddings;
+        }
+
+        return embeddings;
+    }
+
+    @Override
+    public User addUser(final User user) throws SQLException {
         String userId = user.getUserId();
         String email = user.getEmail();
         String fullName = user.getFullName();
@@ -123,19 +147,18 @@ public class DatabaseUserRepository implements UserRepository {
         String password = user.getPassword();
         List<String> roles = user.getRoles();
 
-        try {
+        Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/employee_recognition");
+        Array arrayEmb = conn.createArrayOf("decimal", embedding);
             jdbcOperations.update(
-                    "INSERT INTO users(user_id, email, full_name, embedding, password, enabled) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    userId, email, fullName, embedding, password, true
+                    "INSERT INTO users (user_id, email, full_name, embedding, password, enabled) " +
+                            "VALUES (?, ?, ?, ?, ?, ?)",
+                    userId, email, fullName, arrayEmb, password, true
             );
-        } catch (Exception e) {
-            throw new BadRequestException("User already exists");
-        }
+
 
         for (String role : roles) {
             jdbcOperations.update(
-                    "INSERT INTO user_roles(userId, role) VALUES (?, ?)",
+                    "INSERT INTO user_roles(user_id, role) VALUES (?, ?)",
                     userId, role
             );
         }
@@ -174,7 +197,7 @@ public class DatabaseUserRepository implements UserRepository {
         for(String role : roles) {
             if(!currentRoles.contains(role)) {
                 jdbcOperations.update(
-                        "INSERT INTO user_roles(userId, role) VALUES (?, ?)",
+                        "INSERT INTO user_roles(user_id, role) VALUES (?, ?)",
                         userId, role
                 );
             }

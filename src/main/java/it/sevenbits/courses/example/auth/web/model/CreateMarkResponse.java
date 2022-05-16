@@ -1,12 +1,12 @@
-package it.sevenbits.courses.example.auth.core.model;
+package it.sevenbits.courses.example.auth.web.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.sevenbits.courses.example.auth.core.model.Mark;
 
 import java.sql.Timestamp;
 
-
-public class Request {
+public class CreateMarkResponse {
 
     @JsonProperty("requestId")
     private final String requestId;
@@ -17,22 +17,18 @@ public class Request {
     @JsonProperty("userId")
     private final String userId;
 
-    @JsonProperty("markId")
-    private final String markId;
-
-    @JsonProperty("changedMarkId")
-    private final String changedMarkId;
+    @JsonProperty("changedMark")
+    private final Mark changedMark;
 
     @JsonProperty("commentary")
     private final String commentary;
 
     @JsonCreator
-    public Request(String requestId, Timestamp requestTime, String userId, String markId, String changedMarkId, String commentary) {
+    public CreateMarkResponse(String requestId, Timestamp requestTime, String userId, Mark changedMark, String commentary) {
         this.requestId = requestId;
         this.requestTime = requestTime;
         this.userId = userId;
-        this.markId = markId;
-        this.changedMarkId = changedMarkId;
+        this.changedMark = changedMark;
         this.commentary = commentary;
     }
 
@@ -48,12 +44,8 @@ public class Request {
         return userId;
     }
 
-    public String getMarkId() {
-        return markId;
-    }
-
-    public String getChangedMarkId() {
-        return changedMarkId;
+    public Mark getChangedMark() {
+        return changedMark;
     }
 
     public String getCommentary() {

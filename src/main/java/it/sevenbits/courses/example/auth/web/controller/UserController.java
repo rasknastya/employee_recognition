@@ -2,15 +2,21 @@ package it.sevenbits.courses.example.auth.web.controller;
 
 import it.sevenbits.courses.example.auth.core.model.User;
 import it.sevenbits.courses.example.auth.core.repository.users.UserRepository;
+import it.sevenbits.courses.example.auth.core.service.user.UserService;
+import it.sevenbits.courses.example.auth.web.model.RegisterUserRequest;
 import it.sevenbits.courses.example.auth.web.security.AuthRoleRequired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -21,9 +27,17 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
+    }
+
+    @GetMapping("/embeddings")
+    @AuthRoleRequired("CAMERAMODULE")
+    public ResponseEntity<Map<String, BigDecimal[]>> getAllEmbeddings() {
+        return new ResponseEntity<>(userService.getEmbeddings(), HttpStatus.OK);
     }
 
     @GetMapping
@@ -41,5 +55,17 @@ public class UserController {
                 .ofNullable( userRepository.findUserByEmail(username) )
                 .map( user -> ResponseEntity.ok().body(user) )
                 .orElseGet( () -> ResponseEntity.notFound().build() );
+    }
+
+    @PostMapping(value = "/register")
+    @AuthRoleRequired("ADMIN")
+    public @ResponseBody ResponseEntity registerUser(final RegisterUserRequest request) throws IOException, SQLException {
+        return new ResponseEntity<>(userService.registerUser(request), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "")
+    public @ResponseBody ResponseEntity register(final RegisterUserRequest request) throws IOException, SQLException {
+        System.out.println(request);
+        return new ResponseEntity<>(userService.registerUser(request), HttpStatus.OK);
     }
 }

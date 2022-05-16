@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="employee_recognition" options="-parameters" />
+      <module name="employee_recognition" options="-parameters --add-modules java.base,java.net.http,java.sql" />
     </option>
   </component>
 </project>
