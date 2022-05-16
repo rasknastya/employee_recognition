@@ -9,5 +9,5 @@ public interface PasswordEncoder {
      * @return true if the password matches with the hash
      */
     boolean matches(String plainPassword, String hashedPassword);
-
+    String hashPassword(String plainPassword);
 }

@@ -1,5 +1,9 @@
 package it.sevenbits.courses.example.auth.config;
 
+import it.sevenbits.courses.example.auth.core.repository.marks.DatabaseMarkRepository;
+import it.sevenbits.courses.example.auth.core.repository.marks.MarkRepository;
+import it.sevenbits.courses.example.auth.core.repository.requests.DatabaseRequestRepository;
+import it.sevenbits.courses.example.auth.core.repository.requests.RequestRepository;
 import it.sevenbits.courses.example.auth.core.repository.users.DatabaseUserRepository;
 import it.sevenbits.courses.example.auth.core.repository.users.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,4 +24,13 @@ public class RepositoryConfig {
         return new DatabaseUserRepository(jdbcTemplate);
     }
 
+    @Bean
+    public MarkRepository markRepository(final @Qualifier("JdbcTemplate") JdbcTemplate jdbcTemplate) {
+        return new DatabaseMarkRepository(jdbcTemplate);
+    }
+
+    @Bean
+    public RequestRepository requestRepository(final @Qualifier("JdbcTemplate") JdbcTemplate jdbcTemplate) {
+        return new DatabaseRequestRepository(jdbcTemplate);
+    }
 }

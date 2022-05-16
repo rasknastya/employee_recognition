@@ -1,17 +1,11 @@
-package it.sevenbits.courses.example.auth.core.model;
+package it.sevenbits.courses.example.auth.web.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Timestamp;
 
-public class Mark {
-    @JsonProperty("markId")
-    private final String markId;
-
-    @JsonProperty("markTime")
-    private final Timestamp markTime;
-
+public class AddMarkRequest {
     @JsonProperty("frameAddress")
     private final String frameAddress;
 
@@ -21,21 +15,15 @@ public class Mark {
     @JsonProperty("confidence")
     private final float confidence;
 
-    @JsonProperty("approved")
-    private final boolean approved;
+    @JsonProperty("markTime")
+    private final Timestamp markTime;
 
     @JsonCreator
-    public Mark(String markId, Timestamp markTime, String frameAddress, String userId, float confidence, boolean approved) {
-        this.markId = markId;
-        this.markTime = markTime;
+    public AddMarkRequest(String frameAddress, String userId, float confidence, String markTime) {
         this.frameAddress = frameAddress;
         this.userId = userId;
         this.confidence = confidence;
-        this.approved = approved;
-    }
-
-    public String getMarkId() {
-        return markId;
+        this.markTime = Timestamp.valueOf(markTime);
     }
 
     public Timestamp getMarkTime() {
@@ -52,9 +40,5 @@ public class Mark {
 
     public float getConfidence() {
         return confidence;
-    }
-
-    public boolean isApproved() {
-        return approved;
     }
 }

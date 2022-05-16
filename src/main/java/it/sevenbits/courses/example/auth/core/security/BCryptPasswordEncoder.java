@@ -8,4 +8,8 @@ public class BCryptPasswordEncoder implements PasswordEncoder {
         return BCrypt.checkpw(plainPassword, hashedPassword);
     }
 
+    public String hashPassword(String plainPassword) {
+        return BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
+    }
+
 }

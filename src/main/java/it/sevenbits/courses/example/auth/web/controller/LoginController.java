@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Performs login action.
  */
 @RequestMapping("/login")
-public class BodyLoginController {
+public class LoginController {
 
     private final LoginService loginService;
     private final JwtTokenService tokenService;
 
-    public BodyLoginController(final LoginService loginService, final JwtTokenService tokenService) {
+    public LoginController(final LoginService loginService, final JwtTokenService tokenService) {
         this.loginService = loginService;
         this.tokenService = tokenService;
     }

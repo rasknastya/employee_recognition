@@ -6,5 +6,6 @@ public interface UserCredentials {
 
     String getEmail();
     Set<String> getRoles();
+    String getUserId();
 
 }
