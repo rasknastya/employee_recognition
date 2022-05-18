@@ -19,7 +19,7 @@ import java.util.Set;
  * @Import(CorsFilterConfiguration.class)
  * public class CorsConfig {
  * }
- * }*</pre>
+ * }**</pre>
  * <p>
  * Then you can change allowed origins, methods and headers by defining the environment variables:
  * <dl>

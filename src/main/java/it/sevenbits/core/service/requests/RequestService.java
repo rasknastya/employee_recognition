@@ -24,6 +24,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * The type Request service.
+ */
 @Service
 public class RequestService {
     private final Logger logger = LoggerFactory.getLogger(RequestService.class);
@@ -31,6 +34,13 @@ public class RequestService {
     private final MarkRepository markRepository;
     private final UserRepository userRepository;
 
+    /**
+     * Instantiates a new Request service.
+     *
+     * @param requestRepository the request repository
+     * @param markRepository    the mark repository
+     * @param userRepository    the user repository
+     */
     public RequestService(RequestRepository requestRepository, MarkRepository markRepository, UserRepository userRepository) {
         this.requestRepository = requestRepository;
         this.markRepository = markRepository;
@@ -38,26 +48,59 @@ public class RequestService {
     }
 
 
+    /**
+     * Gets request.
+     *
+     * @param userId    the user id
+     * @param requestId the request id
+     * @return the request
+     */
     public Request getRequest(String userId, String requestId) {
         return validateUserRequest(userId, requestId);
     }
 
+    /**
+     * Super get request request.
+     *
+     * @param requestId the request id
+     * @return the request
+     */
     public Request superGetRequest(String requestId) {
         return requestRepository.getRequestById(requestId);
     }
 
+    /**
+     * Gets requests.
+     *
+     * @param userId the user id
+     * @param time   the time
+     * @return the requests
+     */
     public List<Request> getRequests(String userId, Timestamp time) {
         List<Request> requests = requestRepository.getRequestsByUserId(userId, time);
         exportRequests(requests);
         return requests;
     }
 
+    /**
+     * Gets requests.
+     *
+     * @param time the time
+     * @return the requests
+     */
     public List<Request> getRequests(Timestamp time) {
         List<Request> requests = requestRepository.getAllRequests(time);
         exportRequests(requests);
         return requests;
     }
 
+    /**
+     * Approve request mark.
+     *
+     * @param requestId the request id
+     * @param approved  the approved
+     * @return the mark
+     */
     public Mark approveRequest(String requestId, Boolean approved) {
         Request request = Optional.ofNullable(requestRepository.getRequestById(requestId))
                 .orElseThrow(NotFoundException::new);

@@ -64,6 +64,11 @@ public class Request {
         return requestId;
     }
 
+    /**
+     * Gets request time.
+     *
+     * @return the request time
+     */
     @JsonIgnore
     /**
      * Gets request time.
@@ -74,6 +79,11 @@ public class Request {
         return requestTime;
     }
 
+    /**
+     * Gets formatted request time.
+     *
+     * @return the formatted request time
+     */
     public String getFormattedRequestTime() {
         return sdf.format(new Date(requestTime.getTime()));
     }
@@ -114,6 +124,11 @@ public class Request {
         return commentary;
     }
 
+    /**
+     * Gets fields.
+     *
+     * @return the fields
+     */
     @JsonIgnore
     public List<String> getFields() {
         List<String> fields = new ArrayList<>();

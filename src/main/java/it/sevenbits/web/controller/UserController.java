@@ -76,6 +76,12 @@ public class UserController {
                 .orElseGet( () -> ResponseEntity.notFound().build() );
     }
 
+    /**
+     * Gets user info.
+     *
+     * @param userId the user id
+     * @return the user info
+     */
     @GetMapping(value = "/{userId}")
     @ResponseBody
     @AuthRoleRequired("ADMIN")

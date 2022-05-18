@@ -56,6 +56,11 @@ public class CreateMarkResponse {
         return requestId;
     }
 
+    /**
+     * Gets request time.
+     *
+     * @return the request time
+     */
     @JsonIgnore
     /**
      * Gets request time.
@@ -66,6 +71,11 @@ public class CreateMarkResponse {
         return requestTime;
     }
 
+    /**
+     * Gets formatted request time.
+     *
+     * @return the formatted request time
+     */
     public String getFormattedRequestTime() {
         return sdf.format(new Date(requestTime.getTime()));
     }

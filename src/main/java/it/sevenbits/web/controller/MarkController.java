@@ -35,6 +35,7 @@ public class MarkController {
      * Gets any user marks.
      *
      * @param userId the user id
+     * @param time   the time
      * @return the any user marks
      */
     @GetMapping("/byuserid/{userId}")
@@ -50,6 +51,12 @@ public class MarkController {
         return new ResponseEntity<>(markService.getUserMarks(userId, timestamp), HttpStatus.OK);
     }
 
+    /**
+     * Gets all marks.
+     *
+     * @param time the time
+     * @return the all marks
+     */
     @GetMapping("/all")
     @AuthRoleRequired("SUPERIOR")
     public ResponseEntity<List<Mark>> getAllMarks(@RequestParam final String time) {
@@ -61,6 +68,13 @@ public class MarkController {
         }
         return new ResponseEntity<>(markService.getAllMarks(timestamp), HttpStatus.OK);
     }
+
+    /**
+     * Gets mark.
+     *
+     * @param markId the mark id
+     * @return the mark
+     */
     @GetMapping("/superior/{markId}")
     @AuthRoleRequired("USER")
     public ResponseEntity<Mark> getMark(@PathVariable final String markId) {
@@ -85,6 +99,7 @@ public class MarkController {
      * Gets user marks.
      *
      * @param userCredentials the user credentials
+     * @param time            the time
      * @return the user marks
      */
     @GetMapping("")

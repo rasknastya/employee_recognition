@@ -63,16 +63,35 @@ public class MarkService {
         return validateUserMark(userId, markId);
     }
 
+    /**
+     * Gets mark superior.
+     *
+     * @param markId the mark id
+     * @return the mark superior
+     */
     public Mark getMarkSuperior(String markId) {
         return markRepository.getMarkById(markId);
     }
 
+    /**
+     * Gets user marks.
+     *
+     * @param userId the user id
+     * @param time   the time
+     * @return the user marks
+     */
     public List<Mark> getUserMarks(String userId, Timestamp time) {
         List<Mark> marks = markRepository.getMarksByUserId(userId, time);
         exportMarks(marks);
         return marks;
     }
 
+    /**
+     * Gets all marks.
+     *
+     * @param time the time
+     * @return the all marks
+     */
     public List<Mark> getAllMarks(Timestamp time) {
         List<Mark> marks = markRepository.getAllMarks(time);
         exportMarks(marks);

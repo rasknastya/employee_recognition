@@ -60,6 +60,11 @@ public class Mark {
         return markId;
     }
 
+    /**
+     * Gets mark time.
+     *
+     * @return the mark time
+     */
     @JsonIgnore
     /**
      * Gets mark time.
@@ -70,6 +75,11 @@ public class Mark {
         return markTime;
     }
 
+    /**
+     * Gets formatted mark time.
+     *
+     * @return the formatted mark time
+     */
     public String getFormattedMarkTime() {
         return sdf.format(new Date(markTime.getTime()));
     }
@@ -110,11 +120,22 @@ public class Mark {
         return approved;
     }
 
+    /**
+     * Sets approved.
+     *
+     * @param approved the approved
+     * @return the approved
+     */
     public Mark setApproved(boolean approved) {
         this.approved = approved;
         return this;
     }
 
+    /**
+     * Gets fields.
+     *
+     * @return the fields
+     */
     @JsonIgnore
     public List<String> getFields() {
         List<String> fields = new ArrayList<>();

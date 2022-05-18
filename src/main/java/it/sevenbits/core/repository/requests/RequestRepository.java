@@ -16,7 +16,22 @@ public interface RequestRepository {
      * @return the request by id
      */
     Request getRequestById(String requestId);
+
+    /**
+     * Gets requests by user id.
+     *
+     * @param userId the user id
+     * @param time   the time
+     * @return the requests by user id
+     */
     List<Request> getRequestsByUserId(String userId, Timestamp time);
+
+    /**
+     * Gets all requests.
+     *
+     * @param time the time
+     * @return the all requests
+     */
     List<Request> getAllRequests(Timestamp time);
 
     /**
@@ -34,5 +49,11 @@ public interface RequestRepository {
      * @return the request
      */
     Request updateRequest(Request request);
+
+    /**
+     * Remove request.
+     *
+     * @param requestId the request id
+     */
     void removeRequest(String requestId);
 }
