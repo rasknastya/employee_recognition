@@ -1,21 +1,30 @@
 package it.sevenbits.core.service.marks;
 
-import it.sevenbits.core.repository.requests.RequestRepository;
 import it.sevenbits.core.model.Mark;
 import it.sevenbits.core.model.Request;
 import it.sevenbits.core.model.User;
 import it.sevenbits.core.repository.marks.MarkRepository;
+import it.sevenbits.core.repository.requests.RequestRepository;
 import it.sevenbits.core.repository.users.UserRepository;
 import it.sevenbits.web.controller.exception.NotAvailableException;
 import it.sevenbits.web.controller.exception.NotFoundException;
 import it.sevenbits.web.model.ChangeMarkRequest;
 import it.sevenbits.web.model.ChangeMarkResponse;
 import it.sevenbits.web.model.CreateMarkResponse;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -37,12 +46,20 @@ public class MarkService {
         return validateUserMark(userId, markId);
     }
 
-    public List<Mark> getUserMarks(String userId) {
-        return markRepository.getMarksByUserId(userId);
+    public Mark getMarkSuperior(String markId) {
+        return markRepository.getMarkById(markId);
     }
 
-    public List<Mark> getAllMarks() {
-        return markRepository.getAllMarks();
+    public List<Mark> getUserMarks(String userId, Timestamp time) {
+        List<Mark> marks = markRepository.getMarksByUserId(userId, time);
+        exportMarks(marks);
+        return marks;
+    }
+
+    public List<Mark> getAllMarks(Timestamp time) {
+        List<Mark> marks = markRepository.getAllMarks(time);
+        exportMarks(marks);
+        return marks;
     }
 
     public ChangeMarkResponse changeMark(String userId, String markId, ChangeMarkRequest changeMarkRequest) {
@@ -92,5 +109,40 @@ public class MarkService {
             throw new NotAvailableException();
         }
         return mark;
+    }
+
+    private void exportMarks(List<Mark> marks) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH.mm");
+        XSSFSheet sheet = workbook.createSheet("Marks report " + sdf.format(new Date()));
+        String[] columns = {"Mark ID", "Mark Time", "Frame Address", "User ID", "Confidence", "Approved"};
+        int rowNum = 0;
+
+        int colNum = 0;
+        Row row = sheet.createRow(rowNum++);
+        for (String column : columns) {
+            Cell cell = row.createCell(colNum++);
+            cell.setCellValue(column);
+        }
+
+        for (Mark mark : marks) {
+            row = sheet.createRow(rowNum++);
+            colNum = 0;
+            List<String> fields = mark.getFields();
+            for (String field : fields) {
+                Cell cell = row.createCell(colNum++);
+                cell.setCellValue(field);
+            }
+        }
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream("Marks report " + sdf.format(new Date()) +".xls");
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        logger.info("Excel mark report done");
     }
 }

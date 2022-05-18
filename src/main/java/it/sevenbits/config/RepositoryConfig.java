@@ -17,7 +17,7 @@ public class RepositoryConfig {
     /**
      * The method creates instance of users repository
      * @param jdbcTemplate instance of jdbcTemplate
-     * @return instance of the books repository
+     * @return instance of the users repository
      */
     @Bean
     public UserRepository userRepository(final @Qualifier("JdbcTemplate") JdbcTemplate jdbcTemplate) {

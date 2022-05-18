@@ -1,6 +1,7 @@
 package it.sevenbits.web.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Timestamp;
@@ -29,7 +30,6 @@ public class ChangeMarkRequest {
     public Timestamp getMarkTime() {
         return markTime;
     }
-
 
     public String getFrameAddress() {
         return frameAddress;

@@ -19,7 +19,6 @@ public class LoginService {
     }
 
     public User login(Login login) {
-        System.out.println(login.getEmail());
         User user = users.findUserByEmail(login.getEmail());
         if (user == null) {
             throw new LoginFailedException("User '" + login.getEmail() + "' not found");
@@ -28,6 +27,7 @@ public class LoginService {
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
             throw new LoginFailedException("Wrong password");
         }
+        System.out.println(user.getRoles());
         return user;
     }
 

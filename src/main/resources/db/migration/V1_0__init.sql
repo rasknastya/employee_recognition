@@ -6,4 +6,3 @@ CREATE TABLE if not exists marks (
     confidence float,
     approved boolean
   );
-select * from marks;

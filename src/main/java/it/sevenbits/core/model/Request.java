@@ -1,17 +1,23 @@
 package it.sevenbits.core.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.jdbc.datasource.SmartDataSource;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class Request {
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
     @JsonProperty("requestId")
     private final String requestId;
 
-    @JsonProperty("requestTime")
     private final Timestamp requestTime;
 
     @JsonProperty("userId")
@@ -40,8 +46,13 @@ public class Request {
         return requestId;
     }
 
+    @JsonIgnore
     public Timestamp getRequestTime() {
         return requestTime;
+    }
+
+    public String getFormattedRequestTime() {
+        return sdf.format(new Date(requestTime.getTime()));
     }
 
     public String getUserId() {
@@ -58,5 +69,17 @@ public class Request {
 
     public String getCommentary() {
         return commentary;
+    }
+
+    @JsonIgnore
+    public List<String> getFields() {
+        List<String> fields = new ArrayList<>();
+        fields.add(requestId);
+        fields.add(getFormattedRequestTime());
+        fields.add(userId);
+        fields.add(markId);
+        fields.add(changedMarkId);
+        fields.add(commentary);
+        return fields;
     }
 }

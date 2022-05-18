@@ -18,12 +18,11 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Controller to list users.
+ * Controller to users.
  */
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
     private final UserRepository userRepository;
     private final UserService userService;
 
@@ -45,12 +44,22 @@ public class UserController {
         return ResponseEntity.ok(userRepository.getAllUsers());
     }
 
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = "/byemail/{username}")
     @ResponseBody
     @AuthRoleRequired("ADMIN")
-    public ResponseEntity<User> getUserInfo(final @PathVariable("username") String username) {
+    public ResponseEntity<User> getUserInfoByEmail(final @PathVariable("username") String username) {
         return Optional
                 .ofNullable( userRepository.findUserByEmail(username) )
+                .map( user -> ResponseEntity.ok().body(user) )
+                .orElseGet( () -> ResponseEntity.notFound().build() );
+    }
+
+    @GetMapping(value = "/{userId}")
+    @ResponseBody
+    @AuthRoleRequired("ADMIN")
+    public ResponseEntity<User> getUserInfo(final @PathVariable("userId") String userId) {
+        return Optional
+                .ofNullable( userRepository.findUserById(userId) )
                 .map( user -> ResponseEntity.ok().body(user) )
                 .orElseGet( () -> ResponseEntity.notFound().build() );
     }

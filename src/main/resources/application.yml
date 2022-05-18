@@ -16,6 +16,6 @@ logging:
   level:
     root: INFO
     org.springframework.web: INFO
-    it.sevenbits.courses.example.auth.web.security: DEBUG
+    it.sevenbits.web.security: DEBUG
 spring.flyway:
   baselineOnMigrate: true
