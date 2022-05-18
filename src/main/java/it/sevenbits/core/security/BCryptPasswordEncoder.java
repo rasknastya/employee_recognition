@@ -2,6 +2,9 @@ package it.sevenbits.core.security;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * The type B crypt password encoder.
+ */
 public class BCryptPasswordEncoder implements PasswordEncoder {
 
     public boolean matches(String plainPassword, String hashedPassword) {

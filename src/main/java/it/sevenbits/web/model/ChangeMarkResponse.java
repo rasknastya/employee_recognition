@@ -9,6 +9,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * The type Change mark response.
+ */
 public class ChangeMarkResponse {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
@@ -29,6 +32,16 @@ public class ChangeMarkResponse {
     @JsonProperty("commentary")
     private final String commentary;
 
+    /**
+     * Instantiates a new Change mark response.
+     *
+     * @param requestId   the request id
+     * @param requestTime the request time
+     * @param userId      the user id
+     * @param mark        the mark
+     * @param changedMark the changed mark
+     * @param commentary  the commentary
+     */
     @JsonCreator
     public ChangeMarkResponse(String requestId, Timestamp requestTime, String userId, Mark mark, Mark changedMark, String commentary) {
         this.requestId = requestId;
@@ -39,11 +52,21 @@ public class ChangeMarkResponse {
         this.commentary = commentary;
     }
 
+    /**
+     * Gets request id.
+     *
+     * @return the request id
+     */
     public String getRequestId() {
         return requestId;
     }
 
     @JsonIgnore
+    /**
+     * Gets request time.
+     *
+     * @return the request time
+     */
     public Timestamp getRequestTime() {
         return requestTime;
     }
@@ -52,18 +75,38 @@ public class ChangeMarkResponse {
         return sdf.format(new Date(requestTime.getTime()));
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * Gets mark.
+     *
+     * @return the mark
+     */
     public Mark getMark() {
         return mark;
     }
 
+    /**
+     * Gets changed mark.
+     *
+     * @return the changed mark
+     */
     public Mark getChangedMark() {
         return changedMark;
     }
 
+    /**
+     * Gets commentary.
+     *
+     * @return the commentary
+     */
     public String getCommentary() {
         return commentary;
     }

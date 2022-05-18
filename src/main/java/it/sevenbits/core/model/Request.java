@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * The type Request.
+ */
 public class Request {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
@@ -32,6 +35,16 @@ public class Request {
     @JsonProperty("commentary")
     private final String commentary;
 
+    /**
+     * Instantiates a new Request.
+     *
+     * @param requestId     the request id
+     * @param requestTime   the request time
+     * @param userId        the user id
+     * @param markId        the mark id
+     * @param changedMarkId the changed mark id
+     * @param commentary    the commentary
+     */
     @JsonCreator
     public Request(String requestId, Timestamp requestTime, String userId, String markId, String changedMarkId, String commentary) {
         this.requestId = requestId;
@@ -42,11 +55,21 @@ public class Request {
         this.commentary = commentary;
     }
 
+    /**
+     * Gets request id.
+     *
+     * @return the request id
+     */
     public String getRequestId() {
         return requestId;
     }
 
     @JsonIgnore
+    /**
+     * Gets request time.
+     *
+     * @return the request time
+     */
     public Timestamp getRequestTime() {
         return requestTime;
     }
@@ -55,18 +78,38 @@ public class Request {
         return sdf.format(new Date(requestTime.getTime()));
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * Gets mark id.
+     *
+     * @return the mark id
+     */
     public String getMarkId() {
         return markId;
     }
 
+    /**
+     * Gets changed mark id.
+     *
+     * @return the changed mark id
+     */
     public String getChangedMarkId() {
         return changedMarkId;
     }
 
+    /**
+     * Gets commentary.
+     *
+     * @return the commentary
+     */
     public String getCommentary() {
         return commentary;
     }

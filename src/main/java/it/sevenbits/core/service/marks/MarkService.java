@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * The type Mark service.
+ */
 @Service
 public class MarkService {
     private final MarkRepository markRepository;
@@ -36,12 +39,26 @@ public class MarkService {
     private final UserRepository userRepository;
     private final Logger logger = LoggerFactory.getLogger(MarkService.class);
 
+    /**
+     * Instantiates a new Mark service.
+     *
+     * @param markRepository    the mark repository
+     * @param requestRepository the request repository
+     * @param userRepository    the user repository
+     */
     public MarkService(MarkRepository markRepository, RequestRepository requestRepository, UserRepository userRepository) {
         this.markRepository = markRepository;
         this.requestRepository = requestRepository;
         this.userRepository = userRepository;
     }
 
+    /**
+     * Gets mark.
+     *
+     * @param userId the user id
+     * @param markId the mark id
+     * @return the mark
+     */
     public Mark getMark(String userId, String markId) {
         return validateUserMark(userId, markId);
     }
@@ -62,6 +79,14 @@ public class MarkService {
         return marks;
     }
 
+    /**
+     * Change mark change mark response.
+     *
+     * @param userId            the user id
+     * @param markId            the mark id
+     * @param changeMarkRequest the change mark request
+     * @return the change mark response
+     */
     public ChangeMarkResponse changeMark(String userId, String markId, ChangeMarkRequest changeMarkRequest) {
         Mark mark = validateUserMark(userId, markId);
         String newFrameAddress;
@@ -82,6 +107,13 @@ public class MarkService {
                 mark, newMark, request.getCommentary());
     }
 
+    /**
+     * Create mark create mark response.
+     *
+     * @param userId            the user id
+     * @param changeMarkRequest the change mark request
+     * @return the create mark response
+     */
     public CreateMarkResponse createMark(String userId, ChangeMarkRequest changeMarkRequest) {
         Mark newMark = new Mark(UUID.randomUUID().toString(), changeMarkRequest.getMarkTime(), changeMarkRequest.getFrameAddress(),
                 userId, 0, false);
@@ -92,6 +124,15 @@ public class MarkService {
                 newMark, request.getCommentary());
     }
 
+    /**
+     * Add mark mark.
+     *
+     * @param frameAddress the frame address
+     * @param userId       the user id
+     * @param confidence   the confidence
+     * @param markTime     the mark time
+     * @return the mark
+     */
     public Mark addMark(String frameAddress, String userId, float confidence, Timestamp markTime) {
         return markRepository.addMark(new Mark(UUID.randomUUID().toString(), markTime,
                 frameAddress, userId, confidence, true));

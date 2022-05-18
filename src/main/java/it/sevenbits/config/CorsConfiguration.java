@@ -19,7 +19,7 @@ import java.util.Set;
  * @Import(CorsFilterConfiguration.class)
  * public class CorsConfig {
  * }
- * }</pre>
+ * }*</pre>
  * <p>
  * Then you can change allowed origins, methods and headers by defining the environment variables:
  * <dl>
@@ -53,7 +53,12 @@ public class CorsConfiguration {
     @Value("${CORS_PATH:/**}")
     private String path = "/**";
 
-    // https://stackoverflow.com/questions/45677048/how-do-i-enable-cors-headers-in-the-swagger-v2-api-docs-offered-by-springfox-sw
+    /**
+     * Cors filter cors filter.
+     *
+     * @return the cors filter
+     */
+// https://stackoverflow.com/questions/45677048/how-do-i-enable-cors-headers-in-the-swagger-v2-api-docs-offered-by-springfox-sw
     // https://stackoverflow.com/questions/66060750/cors-error-when-using-corsfilter-and-spring-security
     @Bean
     public CorsFilter corsFilter() {

@@ -9,6 +9,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * The type Create mark response.
+ */
 public class CreateMarkResponse {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
@@ -26,6 +29,15 @@ public class CreateMarkResponse {
     @JsonProperty("commentary")
     private final String commentary;
 
+    /**
+     * Instantiates a new Create mark response.
+     *
+     * @param requestId   the request id
+     * @param requestTime the request time
+     * @param userId      the user id
+     * @param changedMark the changed mark
+     * @param commentary  the commentary
+     */
     @JsonCreator
     public CreateMarkResponse(String requestId, Timestamp requestTime, String userId, Mark changedMark, String commentary) {
         this.requestId = requestId;
@@ -35,11 +47,21 @@ public class CreateMarkResponse {
         this.commentary = commentary;
     }
 
+    /**
+     * Gets request id.
+     *
+     * @return the request id
+     */
     public String getRequestId() {
         return requestId;
     }
 
     @JsonIgnore
+    /**
+     * Gets request time.
+     *
+     * @return the request time
+     */
     public Timestamp getRequestTime() {
         return requestTime;
     }
@@ -48,14 +70,29 @@ public class CreateMarkResponse {
         return sdf.format(new Date(requestTime.getTime()));
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * Gets changed mark.
+     *
+     * @return the changed mark
+     */
     public Mark getChangedMark() {
         return changedMark;
     }
 
+    /**
+     * Gets commentary.
+     *
+     * @return the commentary
+     */
     public String getCommentary() {
         return commentary;
     }
