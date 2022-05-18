@@ -10,9 +10,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
+/**
+ * The type Database config.
+ */
 @Configuration
 public class DatabaseConfig {
 
+    /**
+     * Gets data source.
+     *
+     * @return the data source
+     */
     @Bean
     @Qualifier("dataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
@@ -23,6 +31,7 @@ public class DatabaseConfig {
 
     /**
      * The method creates instance of jdbcTemplate
+     *
      * @param dataSource data source
      * @return instance of jdbcTemplate
      */

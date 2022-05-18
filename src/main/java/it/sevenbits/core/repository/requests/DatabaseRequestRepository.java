@@ -8,6 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Database request repository.
+ */
 public class DatabaseRequestRepository implements RequestRepository{
     private final JdbcOperations jdbcOperations;
     private final String REQUESTID = "request_id";
@@ -17,6 +20,11 @@ public class DatabaseRequestRepository implements RequestRepository{
     private final String CHANGEDMARKID = "changed_mark_id";
     private final String COMMENTARY = "commentary";
 
+    /**
+     * Instantiates a new Database request repository.
+     *
+     * @param jdbcOperations the jdbc operations
+     */
     public DatabaseRequestRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }

@@ -8,6 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Database mark repository.
+ */
 public class DatabaseMarkRepository implements MarkRepository{
     private final JdbcOperations jdbcOperations;
     private final String MARKID = "mark_id";
@@ -18,6 +21,11 @@ public class DatabaseMarkRepository implements MarkRepository{
     private final String APPROVED = "approved";
 
 
+    /**
+     * Instantiates a new Database mark repository.
+     *
+     * @param jdbcOperations the jdbc operations
+     */
     public DatabaseMarkRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }

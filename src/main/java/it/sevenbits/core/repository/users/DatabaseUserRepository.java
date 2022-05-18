@@ -24,6 +24,11 @@ public class DatabaseUserRepository implements UserRepository {
     private final String EMAIL = "email";
     private final String PASSWORD = "password";
 
+    /**
+     * Instantiates a new Database user repository.
+     *
+     * @param jdbcOperations the jdbc operations
+     */
     public DatabaseUserRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }

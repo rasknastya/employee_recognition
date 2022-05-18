@@ -28,6 +28,9 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * The type User service.
+ */
 @Service
 public class UserService {
     private final RestTemplate restTemplate;
@@ -35,16 +38,36 @@ public class UserService {
     private final UserRepository userRepository;
     private final Logger logger = LoggerFactory.getLogger(MarkService.class);
 
+    /**
+     * Instantiates a new User service.
+     *
+     * @param restTemplateBuilder the rest template builder
+     * @param passwordEncoder     the password encoder
+     * @param userRepository      the user repository
+     */
     public UserService(RestTemplateBuilder restTemplateBuilder, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.restTemplate = restTemplateBuilder.build();
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
+    /**
+     * Gets embeddings.
+     *
+     * @return the embeddings
+     */
     public Map<String, BigDecimal[]> getEmbeddings() {
         return userRepository.getEmbeddings();
     }
 
+    /**
+     * Register user user.
+     *
+     * @param request the request
+     * @return the user
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
+     */
     public User registerUser(RegisterUserRequest request) throws IOException, SQLException {
         if (userRepository.findUserByEmail(request.getEmail()) != null) {
             throw new ForbiddenException("User with this email already registered");

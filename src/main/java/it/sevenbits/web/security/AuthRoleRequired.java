@@ -16,6 +16,7 @@ public @interface AuthRoleRequired {
 
     /**
      * Returns a role which is required to access the method
+     *
      * @return the role name
      */
     String value();

@@ -10,11 +10,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+/**
+ * The type Web configuration.
+ */
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
     private final JwtTokenService jwtTokenService;
 
+    /**
+     * Instantiates a new Web configuration.
+     *
+     * @param jwtTokenService the jwt token service
+     */
     public WebConfiguration(
         final JwtTokenService jwtTokenService
     ) {

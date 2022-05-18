@@ -20,10 +20,18 @@ public class JwtAuthInterceptor implements HandlerInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * The constant USER_CREDENTIALS.
+     */
     public static String USER_CREDENTIALS = "userCredentialsAttr";
 
     private final JwtTokenService jwtService;
 
+    /**
+     * Instantiates a new Jwt auth interceptor.
+     *
+     * @param jwtService the jwt service
+     */
     public JwtAuthInterceptor(
         final JwtTokenService jwtService
     ) {

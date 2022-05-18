@@ -27,17 +27,33 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
 
+    /**
+     * Instantiates a new User controller.
+     *
+     * @param userRepository the user repository
+     * @param userService    the user service
+     */
     public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
         this.userService = userService;
     }
 
+    /**
+     * Gets all embeddings.
+     *
+     * @return the all embeddings
+     */
     @GetMapping("/embeddings")
     @AuthRoleRequired("CAMERAMODULE")
     public ResponseEntity<Map<String, BigDecimal[]>> getAllEmbeddings() {
         return new ResponseEntity<>(userService.getEmbeddings(), HttpStatus.OK);
     }
 
+    /**
+     * Gets all users.
+     *
+     * @return the all users
+     */
     @GetMapping
     @ResponseBody
     @AuthRoleRequired("ADMIN")
@@ -45,6 +61,12 @@ public class UserController {
         return ResponseEntity.ok(userRepository.getAllUsers());
     }
 
+    /**
+     * Gets user info.
+     *
+     * @param username the username
+     * @return the user info
+     */
     @GetMapping(value = "/{username}")
     @ResponseBody
     @AuthRoleRequired("ADMIN")
@@ -55,6 +77,14 @@ public class UserController {
                 .orElseGet( () -> ResponseEntity.notFound().build() );
     }
 
+    /**
+     * Register user response entity.
+     *
+     * @param request the request
+     * @return the response entity
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
+     */
     @PostMapping(value = "/register")
     @AuthRoleRequired("ADMIN")
     public @ResponseBody ResponseEntity registerUser(final RegisterUserRequest request) throws IOException, SQLException {

@@ -19,11 +19,23 @@ public class LoginController {
     private final LoginService loginService;
     private final JwtTokenService tokenService;
 
+    /**
+     * Instantiates a new Login controller.
+     *
+     * @param loginService the login service
+     * @param tokenService the token service
+     */
     public LoginController(final LoginService loginService, final JwtTokenService tokenService) {
         this.loginService = loginService;
         this.tokenService = tokenService;
     }
 
+    /**
+     * Create token.
+     *
+     * @param login the login
+     * @return the token
+     */
     @PostMapping
     @ResponseBody
     public Token create(@RequestBody Login login) {

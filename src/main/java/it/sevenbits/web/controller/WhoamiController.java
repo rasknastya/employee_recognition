@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/whoami")
 public class WhoamiController {
 
+    /**
+     * Get response entity.
+     *
+     * @param userCredentials the user credentials
+     * @return the response entity
+     */
     @GetMapping
     @ResponseBody
     @AuthRoleRequired("USER")
