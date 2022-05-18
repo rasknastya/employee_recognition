@@ -1,5 +1,5 @@
 INSERT INTO users(user_id, email, full_name, embedding, password, enabled)
-SELECT * FROM (SELECT '0884831b-42f9-4f81-af88-3e777be69c8f', 'rasknastya@gmail.com', 'Анастасия Сергеевна Крупина',
+SELECT * FROM (SELECT '0884831b-42f9-4f81-af88-3e777be69c8f', 'rasknastya@gmail.com', 'Крупина Анастасия Сергеевна',
                       ARRAY [-0.0750,  0.0492, -0.0326, -0.0822,  0.0210, -0.0253,  0.0155, -0.0203,
     0.0477,  0.0167,  0.0073, -0.0207, -0.0171, -0.0971, -0.0354, -0.0020,
     0.0214,  0.0448,  0.0007, -0.0121, -0.0546, -0.0060,  0.0388,  0.0084,

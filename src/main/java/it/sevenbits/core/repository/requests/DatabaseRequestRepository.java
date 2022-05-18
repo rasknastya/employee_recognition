@@ -50,12 +50,15 @@ public class DatabaseRequestRepository implements RequestRepository{
     }
 
     @Override
-    public List<Request> getRequestsByUserId(String userId) {
+    public List<Request> getRequestsByUserId(String userId, Timestamp timestamp) {
         List<Request> requests = new ArrayList<>();
+        if (timestamp == null) {
+            timestamp = new Timestamp(0);
+        }
         try {
             jdbcOperations.query(
                     "SELECT request_id, request_time, mark_id, changed_mark_id, commentary" +
-                            " FROM requests WHERE user_id = ?",
+                            " FROM requests WHERE user_id = ? AND request_time > ? ORDER BY request_time DESC",
                     (resultSet, i) -> {
                         String requestId = resultSet.getString(REQUESTID);
                         Timestamp requestTime = resultSet.getTimestamp(REQUESTTIME);
@@ -64,7 +67,7 @@ public class DatabaseRequestRepository implements RequestRepository{
                         String commentary = resultSet.getString(COMMENTARY);
                         return requests.add(new Request(requestId, requestTime, userId, markId, changedMarkId, commentary));
                     },
-                    userId);
+                    userId, timestamp);
         } catch (EmptyResultDataAccessException e) {
             return requests;
         }
@@ -72,12 +75,15 @@ public class DatabaseRequestRepository implements RequestRepository{
     }
 
     @Override
-    public List<Request> getAllRequests() {
+    public List<Request> getAllRequests(Timestamp timestamp) {
         List<Request> requests = new ArrayList<>();
+        if (timestamp == null) {
+            timestamp = new Timestamp(0);
+        }
         try {
             jdbcOperations.query(
                     "SELECT request_id, request_time, user_id, mark_id, changed_mark_id, commentary" +
-                            " FROM requests",
+                            " FROM requests WHERE request_time > ? ORDER BY request_time DESC",
                     (resultSet, i) -> {
                         String requestId = resultSet.getString(REQUESTID);
                         Timestamp requestTime = resultSet.getTimestamp(REQUESTTIME);
@@ -86,7 +92,8 @@ public class DatabaseRequestRepository implements RequestRepository{
                         String changedMarkId = resultSet.getString(CHANGEDMARKID);
                         String commentary = resultSet.getString(COMMENTARY);
                         return requests.add(new Request(requestId, requestTime, userId, markId, changedMarkId, commentary));
-                    });
+                    },
+                    timestamp);
         } catch (EmptyResultDataAccessException e) {
             return requests;
         }
@@ -123,5 +130,13 @@ public class DatabaseRequestRepository implements RequestRepository{
                 requestTime, userId, markId, changedMarkId, commentary, requestId
         );
         return getRequestById(request.getRequestId());
+    }
+
+    @Override
+    public void removeRequest(String requestId){
+        jdbcOperations.update(
+                "DELETE FROM requests WHERE request_id = ?",
+                requestId
+        );
     }
 }

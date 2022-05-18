@@ -1,18 +1,22 @@
 package it.sevenbits.core.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * The type Mark.
  */
 public class Mark {
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
+
     @JsonProperty("markId")
     private final String markId;
 
-    @JsonProperty("markTime")
     private final Timestamp markTime;
 
     @JsonProperty("frameAddress")
@@ -25,7 +29,7 @@ public class Mark {
     private final float confidence;
 
     @JsonProperty("approved")
-    private final boolean approved;
+    private boolean approved;
 
     /**
      * Instantiates a new Mark.
@@ -56,6 +60,7 @@ public class Mark {
         return markId;
     }
 
+    @JsonIgnore
     /**
      * Gets mark time.
      *
@@ -63,6 +68,10 @@ public class Mark {
      */
     public Timestamp getMarkTime() {
         return markTime;
+    }
+
+    public String getFormattedMarkTime() {
+        return sdf.format(new Date(markTime.getTime()));
     }
 
     /**
@@ -99,5 +108,22 @@ public class Mark {
      */
     public boolean isApproved() {
         return approved;
+    }
+
+    public Mark setApproved(boolean approved) {
+        this.approved = approved;
+        return this;
+    }
+
+    @JsonIgnore
+    public List<String> getFields() {
+        List<String> fields = new ArrayList<>();
+        fields.add(markId);
+        fields.add(getFormattedMarkTime());
+        fields.add(frameAddress);
+        fields.add(userId);
+        fields.add(String.valueOf(confidence));
+        fields.add(String.valueOf(approved));
+        return fields;
     }
 }

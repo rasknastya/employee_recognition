@@ -2,6 +2,7 @@ package it.sevenbits.core.repository.marks;
 
 import it.sevenbits.core.model.Mark;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -15,35 +16,10 @@ public interface MarkRepository {
      * @return the mark by id
      */
     Mark getMarkById(String markId);
+    List<Mark> getMarksByUserId(String userId, Timestamp timestamp);
+    List<Mark> getAllMarks(Timestamp timestamp);
+    List<Mark> getUnapprovedMarks(Timestamp timestamp);
 
-    /**
-     * Gets marks by user id.
-     *
-     * @param userId the user id
-     * @return the marks by user id
-     */
-    List<Mark> getMarksByUserId(String userId);
-
-    /**
-     * Gets all marks.
-     *
-     * @return the all marks
-     */
-    List<Mark> getAllMarks();
-
-    /**
-     * Gets unapproved marks.
-     *
-     * @return the unapproved marks
-     */
-    List<Mark> getUnapprovedMarks();
-
-    /**
-     * Add mark mark.
-     *
-     * @param mark the mark
-     * @return the mark
-     */
     Mark addMark(Mark mark);
 
     /**
@@ -53,4 +29,6 @@ public interface MarkRepository {
      * @return the mark
      */
     Mark updateMark(Mark mark);
+
+    void removeMark(String markId);
 }

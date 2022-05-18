@@ -2,6 +2,7 @@ package it.sevenbits.core.repository.requests;
 
 import it.sevenbits.core.model.Request;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -15,21 +16,8 @@ public interface RequestRepository {
      * @return the request by id
      */
     Request getRequestById(String requestId);
-
-    /**
-     * Gets requests by user id.
-     *
-     * @param userId the user id
-     * @return the requests by user id
-     */
-    List<Request> getRequestsByUserId(String userId);
-
-    /**
-     * Gets all requests.
-     *
-     * @return the all requests
-     */
-    List<Request> getAllRequests();
+    List<Request> getRequestsByUserId(String userId, Timestamp time);
+    List<Request> getAllRequests(Timestamp time);
 
     /**
      * Add request request.
@@ -46,4 +34,5 @@ public interface RequestRepository {
      * @return the request
      */
     Request updateRequest(Request request);
+    void removeRequest(String requestId);
 }

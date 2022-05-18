@@ -49,12 +49,16 @@ public class DatabaseMarkRepository implements MarkRepository{
         }
     }
 
-    public List<Mark> getMarksByUserId(String userId) {
+    public List<Mark> getMarksByUserId(String userId, Timestamp timestamp) {
         List<Mark> marks = new ArrayList<>();
+        if (timestamp == null) {
+            timestamp = new Timestamp(0);
+            System.out.println(timestamp);
+        }
         try {
              jdbcOperations.query(
                     "SELECT mark_id, mark_time, frame_address, confidence, approved" +
-                            " FROM marks WHERE user_id = ?",
+                            " FROM marks WHERE user_id = ? AND mark_time > ? ORDER BY mark_time DESC",
                     (resultSet, i) -> {
                         String id = resultSet.getString(MARKID);
                         Timestamp markTime = resultSet.getTimestamp(MARKTIME);
@@ -63,20 +67,23 @@ public class DatabaseMarkRepository implements MarkRepository{
                         boolean approved = resultSet.getBoolean(APPROVED);
                         return marks.add(new Mark(id, markTime, frameAddress, userId, confidence, approved));
                     },
-                    userId);
+                    userId, timestamp);
         } catch (EmptyResultDataAccessException e) {
             return marks;
         }
         return marks;
     }
 
-    public List<Mark> getAllMarks() {
+    public List<Mark> getAllMarks(Timestamp timestamp) {
         List<Mark> marks = new ArrayList<>();
+        if (timestamp == null) {
+            timestamp = new Timestamp(0);
+        }
         boolean approved = true;
         try {
             jdbcOperations.query(
                     "SELECT mark_id, mark_time, frame_address, user_id, confidence" +
-                            " FROM marks WHERE user_id = ? AND approved =",
+                            " FROM marks WHERE approved = ? AND mark_time > ? ORDER BY mark_time DESC",
                     (resultSet, i) -> {
                         String id = resultSet.getString(MARKID);
                         Timestamp markTime = resultSet.getTimestamp(MARKTIME);
@@ -85,20 +92,23 @@ public class DatabaseMarkRepository implements MarkRepository{
                         float confidence = resultSet.getFloat(CONFIDENCE);
                         return marks.add(new Mark(id, markTime, frameAddress, userId, confidence, approved));
                     },
-                    approved);
+                    approved, timestamp);
         } catch (EmptyResultDataAccessException e) {
             return marks;
         }
         return marks;
     }
 
-    public List<Mark> getUnapprovedMarks() {
+    public List<Mark> getUnapprovedMarks(Timestamp timestamp) {
         List<Mark> marks = new ArrayList<>();
+        if (timestamp == null) {
+            timestamp = new Timestamp(0);
+        }
         boolean approved = false;
         try {
             jdbcOperations.query(
                     "SELECT mark_id, mark_time, frame_address, user_id, confidence" +
-                            " FROM marks WHERE approved = ?",
+                            " FROM marks WHERE approved = ? ORDER BY mark_time DESC",
                     (resultSet, i) -> {
                         String id = resultSet.getString(MARKID);
                         Timestamp markTime = resultSet.getTimestamp(MARKTIME);
@@ -121,6 +131,7 @@ public class DatabaseMarkRepository implements MarkRepository{
                 mark.getMarkId(), mark.getMarkTime(), mark.getFrameAddress(), mark.getUserId(),
                 mark.getConfidence(), mark.isApproved()
         );
+
         return getMarkById(mark.getMarkId());
     }
 
@@ -132,5 +143,13 @@ public class DatabaseMarkRepository implements MarkRepository{
                 mark.getConfidence(), mark.isApproved(), mark.getMarkId()
                 );
         return getMarkById(mark.getMarkId());
+    }
+
+    @Override
+    public void removeMark(String markId){
+        jdbcOperations.update(
+                "DELETE FROM marks WHERE mark_id = ?",
+                markId
+        );
     }
 }

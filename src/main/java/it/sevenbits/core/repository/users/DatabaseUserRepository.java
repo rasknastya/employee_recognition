@@ -154,12 +154,16 @@ public class DatabaseUserRepository implements UserRepository {
 
         Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/employee_recognition");
         Array arrayEmb = conn.createArrayOf("decimal", embedding);
+        conn.close();
+        try {
             jdbcOperations.update(
                     "INSERT INTO users (user_id, email, full_name, embedding, password, enabled) " +
                             "VALUES (?, ?, ?, ?, ?, ?)",
                     userId, email, fullName, arrayEmb, password, true
             );
-
+        } catch (Exception e) {
+            return null;
+        }
 
         for (String role : roles) {
             jdbcOperations.update(

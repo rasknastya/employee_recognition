@@ -6,6 +6,7 @@ import it.sevenbits.core.security.PasswordEncoder;
 import it.sevenbits.core.service.marks.MarkService;
 import it.sevenbits.web.controller.exception.BadRequestException;
 import it.sevenbits.web.controller.exception.ForbiddenException;
+import it.sevenbits.web.controller.exception.NotAvailableException;
 import it.sevenbits.web.model.RegisterUserRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -70,7 +67,7 @@ public class UserService {
      */
     public User registerUser(RegisterUserRequest request) throws IOException, SQLException {
         if (userRepository.findUserByEmail(request.getEmail()) != null) {
-            throw new ForbiddenException("User with this email already registered");
+            throw new NotAvailableException();
         }
 
         String url = "http://127.0.0.1:8000/getembedding";
@@ -92,8 +89,8 @@ public class UserService {
         HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>(body, headers);
         BigDecimal[] embedding = this.restTemplate.postForObject(url, entity, BigDecimal[].class);
 
-        System.out.println("2");
         List<String> roles = new ArrayList<>();
+        roles.add("USER");
 
         User user = new User(UUID.randomUUID().toString(), request.getEmail(), request.getFullName(),
                 roles, embedding, passwordEncoder.hashPassword(request.getPassword()));
